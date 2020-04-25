@@ -11,7 +11,6 @@ import org.springframework.stereotype.Repository;
 import ru.choicerestaurant.model.User;
 import ru.choicerestaurant.repository.RoleRep;
 import ru.choicerestaurant.repository.UserRep;
-import ru.choicerestaurant.repository.memory.UserRepImplInMem;
 
 import java.util.List;
 
@@ -19,7 +18,7 @@ import static org.slf4j.LoggerFactory.getLogger;
 
 @Repository
 public class UserRepImplJdbc implements UserRep {
-    private static final Logger log = getLogger(UserRepImplInMem.class);
+    private static final Logger log = getLogger(UserRepImplJdbc.class);
     //public static final BeanPropertyRowMapper<User> ROW_MAPPER = BeanPropertyRowMapper.newInstance(User.class);
     public RowMapper<User> ROW_MAPPER;
 
@@ -40,6 +39,7 @@ public class UserRepImplJdbc implements UserRep {
 
     @Override
     public User save(User user) {
+        log.info("save user {}", user);
         MapSqlParameterSource sqlParameterSource = new MapSqlParameterSource()
                 .addValue("id", user.getId())
                 .addValue("name", user.getName())
@@ -52,8 +52,6 @@ public class UserRepImplJdbc implements UserRep {
             user.setId(simpleJdbcInsert.executeAndReturnKey(sqlParameterSource).intValue());
         } else {
             if (namedParameterJdbcTemplate.update("UPDATE users " +
-                            /*"SET name=:name" +
-                            " WHERE id=:id"*/
                             "SET name=:name, email=:email, password=:password, registered=:registered, " +
                             "enabled=:enabled, role_id=:role_id WHERE id=:id"
                     , sqlParameterSource) == 0) {
@@ -65,19 +63,20 @@ public class UserRepImplJdbc implements UserRep {
 
     @Override
     public Boolean delete(Integer id) {
+        log.info("delete user {}", id);
         return jdbcTemplate.update("DELETE FROM users WHERE id=?", id) != 0;
     }
 
     @Override
     public User get(Integer id) {
-        log.debug("id = " + id);
+        log.info("get user {}", id);
         List<User> users = jdbcTemplate.query("select * from users where id=?", ROW_MAPPER, id);
         return DataAccessUtils.singleResult(users);
     }
 
     @Override
     public List<User> getAll() {
-        log.debug("metod UserRepImplJdbc.getAll");
+        log.info("get all users");
         return jdbcTemplate.query("select * from users", ROW_MAPPER);
     }
 }

@@ -25,14 +25,14 @@ public class RoleRepImplJdbc implements RoleRep {
 
     @Override
     public Role get(Integer id) {
-        log.debug("metod get");
+        log.info("get role {}", id);
         List<Role> roles = jdbcTemplate.query("SELECT * FROM roles where id=?", ROW_MAPPER, id);
         return DataAccessUtils.singleResult(roles);
     }
 
     @Override
     public List<Role> getAll() {
-        log.debug("getAll");
+        log.info("get all roles");
         return jdbcTemplate.query("select * from roles", ROW_MAPPER);
     }
 }

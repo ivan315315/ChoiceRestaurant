@@ -1,16 +1,18 @@
 package ru.choicerestaurant.service;
 
 import ru.choicerestaurant.model.User;
-import ru.choicerestaurant.util.exception.NotFoundExeption;
+import ru.choicerestaurant.util.exception.NotFoundException;
 
 import java.util.List;
 
 public interface UserServ {
-    User save(User user);
+    User create(User user, Integer userId);
 
-    Boolean delete(Integer id) throws NotFoundExeption;
+    User update(User user, Integer userId);
 
-    User get(Integer id) throws NotFoundExeption;
+    Boolean delete(Integer id, Integer userId) throws NotFoundException;
 
-    List<User> getAll();
+    User get(Integer id, Integer userId) throws NotFoundException;
+
+    List<User> getAll(Integer userId);
 }

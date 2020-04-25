@@ -1,6 +1,6 @@
 package ru.choicerestaurant.model;
 
-import jdk.nashorn.internal.objects.annotations.Getter;
+//import jdk.nashorn.internal.objects.annotations.Getter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -29,6 +29,10 @@ public class Role extends BaseEntity {
     public Role(Integer id, String name) {
         super(id);
         this.name = name;
+    }
+
+    public Role(Role role){
+        this(role.getId(), role.getName());
     }
 
     public String getName() {

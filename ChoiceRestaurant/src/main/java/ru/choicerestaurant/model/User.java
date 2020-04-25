@@ -2,6 +2,7 @@ package ru.choicerestaurant.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Entity
@@ -20,11 +21,11 @@ public class User extends BaseEntity {
     private String password;
 
     @Column
-    @NotBlank
+    @NotNull
     private LocalDateTime registered;
 
     @Column
-    @NotBlank
+    @NotNull
     private Boolean enabled;
 
     //@Column(name = "role_id")

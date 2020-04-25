@@ -1,5 +1,6 @@
 package ru.choicerestaurant.model;
 
+import org.hibernate.Hibernate;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
@@ -29,5 +30,22 @@ public abstract class BaseEntity {
 
     public Boolean isNew() {
         return this.id == null;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || !this.getClass().equals(Hibernate.getClass(o))) {
+            return false;
+        }
+        BaseEntity that = (BaseEntity) o;
+        return id != null && id.equals(that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id == null ? 0 : id;
     }
 }
