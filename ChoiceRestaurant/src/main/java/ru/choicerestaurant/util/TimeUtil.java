@@ -9,4 +9,7 @@ public class TimeUtil {
     public static LocalDateTime timestampToLdt(Timestamp timestamp){
         return LocalDateTime.ofInstant(Instant.ofEpochMilli(timestamp.getTime()), ZoneId.systemDefault());
     }
+    public static LocalDateTime getToday(){
+        return LocalDateTime.now();
+    }
 }

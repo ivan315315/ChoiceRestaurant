@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import ru.choicerestaurant.model.Role;
 import ru.choicerestaurant.service.RoleServ;
-import ru.choicerestaurant.service.RoleServImpl;
 import ru.choicerestaurant.util.SecurityUtil;
 
 import java.util.List;

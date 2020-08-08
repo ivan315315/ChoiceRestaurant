@@ -1,25 +1,47 @@
 package ru.choicerestaurant.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
+@Entity
+@Table(name = "meals")
 public class Meal extends BaseEntity {
+    @Column
+    @NotBlank
     private String name;
-    private Double price;
-    private LocalDate lunch_day;
-    private Restaurant restaurant;
-    private User user;
 
-    public Meal(String name, Double price, LocalDate lunch_day, Restaurant restaurant, User user) {
-        this(null, name, price, lunch_day, restaurant, user);
+    @Column
+    @NotNull
+    private Double price;
+
+    @Column(name = "lunch_day")
+    @NotNull
+    private LocalDate lunchDay;
+
+    /*@Column(name = "restaurants_id")*/
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY/*, cascade = CascadeType.ALL*/)
+    @JoinColumn(name = "restaurants_id")
+    private Restaurant restaurant;
+
+    public Meal() {
     }
 
-    public Meal(Integer id, String name, Double price, LocalDate lunch_day, Restaurant restaurant, User user) {
+    public Meal(String name, Double price, LocalDate lunchDay, Restaurant restaurant/*, User user*/) {
+        this(null, name, price, lunchDay, restaurant/*, user*/);
+    }
+
+    public Meal(Integer id, String name, Double price, LocalDate lunchDay, Restaurant restaurant/*, User user*/) {
         super(id);
         this.name = name;
         this.price = price;
-        this.lunch_day = lunch_day;
+        this.lunchDay = lunchDay;
         this.restaurant = restaurant;
-        this.user = user;
+        /*this.user = user;*/
     }
 
     public String getName() {
@@ -38,12 +60,12 @@ public class Meal extends BaseEntity {
         this.price = price;
     }
 
-    public LocalDate getDatelunch_day() {
-        return lunch_day;
+    public LocalDate getDatelunchDay() {
+        return lunchDay;
     }
 
-    public void setDatelunch_day(LocalDate datelunch_day) {
-        this.lunch_day = datelunch_day;
+    public void setDatelunchDay(LocalDate datelunchDay) {
+        this.lunchDay = datelunchDay;
     }
 
     public Restaurant getRestaurant() {
@@ -54,23 +76,13 @@ public class Meal extends BaseEntity {
         this.restaurant = restaurant;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
     @Override
     public String toString() {
         return "Meal{" +
-                "id=" + id +
-                ", name=" + name + '\'' +
-                ", price='" + price +
-                ", lunch_day=" + lunch_day +
-                ", restaurant=" + restaurant.getName() +
-                ", user=" + user.getName() +
+                "name='" + name + '\'' +
+                ", price=" + price +
+                ", lunchDay=" + lunchDay +
+                ", id=" + id +
                 '}';
     }
 }

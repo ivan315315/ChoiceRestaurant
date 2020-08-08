@@ -1,22 +1,19 @@
 package ru.choicerestaurant.model;
 
-//import jdk.nashorn.internal.objects.annotations.Getter;
+import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
 @Table(name = "roles")
-public class Role extends BaseEntity {
-    //@Getter ???
+public class Role extends BaseEntity implements GrantedAuthority {
     @Column
     @NotBlank
     private String name;
 
-    @OneToMany(mappedBy = "role"/*, fetch = FetchType.LAZY*/) // ?? для users или для ролей в users // mappedBy = "role" - таблица, где мении, а если их несколько???
+    @OneToMany(mappedBy = "role")
     private List<User> users;
 
     public Role() {
@@ -57,5 +54,11 @@ public class Role extends BaseEntity {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 '}';
+    }
+
+    @Override
+    public String getAuthority() {
+        //todo 9_08 10 min
+        return name;
     }
 }

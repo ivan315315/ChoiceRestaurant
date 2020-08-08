@@ -1,6 +1,7 @@
 package ru.choicerestaurant.repository.jpa;
 
 import org.slf4j.Logger;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.choicerestaurant.model.User;
@@ -15,6 +16,7 @@ import static org.slf4j.LoggerFactory.getLogger;
 
 @Repository
 @Transactional(readOnly = true)
+@EnableAspectJAutoProxy(proxyTargetClass=true)
 public class UserRepImplJpa implements UserRep {
     private static final Logger log = getLogger(UserRepImplJpa.class);
 
@@ -27,10 +29,11 @@ public class UserRepImplJpa implements UserRep {
         log.info("save user {}", user);
         if (user.isNew()){
             entityManager.persist(user);
-        } else {
-            entityManager.merge(user);
+            return user;
+        } else if (get(user.getId()) == null) {
+            return null;
         }
-        return user;
+        return entityManager.merge(user);
     }
 
     @Override

@@ -5,7 +5,7 @@ DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS roles;
 DROP SEQUENCE IF EXISTS global_seq;
 
-CREATE SEQUENCE global_seq START WITH 100000;
+CREATE SEQUENCE global_seq START WITH 110000;--???
 
 CREATE TABLE roles
 (
@@ -31,7 +31,7 @@ CREATE TABLE restaurants
 (
     id               INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
     name             VARCHAR(100)                 NOT NULL,
-    user_id          INTEGER NOT NULL
+    enabled          BOOL DEFAULT TRUE       NOT NULL
 );
 CREATE UNIQUE INDEX restaurants_id ON restaurants (id);
 
@@ -42,7 +42,6 @@ CREATE TABLE meals
     price            NUMERIC(16,2)                 NOT NULL,
     lunch_day        DATE NOT NULL,
     restaurants_id   INTEGER NOT NULL,
-    user_id          INTEGER NOT NULL,
     FOREIGN KEY (restaurants_id) REFERENCES restaurants (id) ON DELETE CASCADE
 );
 CREATE UNIQUE INDEX meals_id ON meals (id);
@@ -53,6 +52,7 @@ CREATE TABLE users_restaurants_day
     user_id          INTEGER NOT NULL,
     restaurants_id   INTEGER NOT NULL,
     lunch_day        DATE NOT NULL,
-    FOREIGN KEY (restaurants_id) REFERENCES restaurants (id) ON DELETE CASCADE
+    FOREIGN KEY (restaurants_id) REFERENCES restaurants (id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
 );
-CREATE UNIQUE INDEX users_restaurants_day_id ON users_restaurants_day (id);
+CREATE UNIQUE INDEX users_restaurants_day_id ON users_restaurants_day (user_id, restaurants_id, lunch_day);

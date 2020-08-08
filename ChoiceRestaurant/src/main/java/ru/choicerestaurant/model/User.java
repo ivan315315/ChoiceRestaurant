@@ -1,13 +1,17 @@
 package ru.choicerestaurant.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
-public class User extends BaseEntity {
+public class User extends BaseEntity implements Serializable {
 
     @Column
     private String name;
@@ -28,10 +32,13 @@ public class User extends BaseEntity {
     @NotNull
     private Boolean enabled;
 
-    //@Column(name = "role_id")
-    @ManyToOne(fetch = FetchType.EAGER/*, cascade = CascadeType.ALL*/) //??? .ALL - Удалит из справочника роль
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "role_id")
     private Role role;
+
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
+    private List<UserRestaurantDay> userRestaurantDays;
 
     public User() {
     }

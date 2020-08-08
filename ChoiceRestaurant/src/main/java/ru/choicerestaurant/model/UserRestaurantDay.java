@@ -1,21 +1,41 @@
 package ru.choicerestaurant.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
+@Entity
+@Table(name = "users_restaurants_day")
 public class UserRestaurantDay extends BaseEntity {
-    private User user;
-    private Restaurant restaurant;
-    private LocalDate lunch_day;
 
-    public UserRestaurantDay(User user, Restaurant restaurant, LocalDate lunch_day) {
-        this(null, user, restaurant, lunch_day);
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    @JsonIgnore
+    private User user;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "restaurants_id")
+    @JsonIgnore
+    private Restaurant restaurant;
+
+    @Column(name = "lunch_day")
+    @NotNull
+    private LocalDate lunchDay;
+
+    public UserRestaurantDay() {
     }
 
-    public UserRestaurantDay(Integer id, User user, Restaurant restaurant, LocalDate lunch_day) {
+    public UserRestaurantDay(User user, Restaurant restaurant, LocalDate lunchDay) {
+        this(null, user, restaurant, lunchDay);
+    }
+
+    public UserRestaurantDay(Integer id, User user, Restaurant restaurant, LocalDate lunchDay) {
         super(id);
         this.user = user;
         this.restaurant = restaurant;
-        this.lunch_day = lunch_day;
+        this.lunchDay = lunchDay;
     }
 
     public User getUser() {
@@ -34,11 +54,19 @@ public class UserRestaurantDay extends BaseEntity {
         this.restaurant = restaurant;
     }
 
-    public LocalDate getLunch_day() {
-        return lunch_day;
+    public LocalDate getlunchDay() {
+        return lunchDay;
     }
 
-    public void setLunch_day(LocalDate lunch_day) {
-        this.lunch_day = lunch_day;
+    public void setlunchDay(LocalDate lunchDay) {
+        this.lunchDay = lunchDay;
+    }
+
+    @Override
+    public String toString() {
+        return "UserRestaurantDay{" +
+                ", lunchDay=" + lunchDay +
+                ", id=" + id +
+                '}';
     }
 }

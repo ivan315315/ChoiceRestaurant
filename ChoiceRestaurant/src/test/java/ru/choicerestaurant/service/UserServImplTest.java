@@ -1,89 +1,99 @@
 package ru.choicerestaurant.service;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.jdbc.SqlConfig;
-import org.springframework.test.context.junit4.SpringRunner;
 import ru.choicerestaurant.ActiveDbProfileResolver;
 import ru.choicerestaurant.model.User;
+import ru.choicerestaurant.to.UserTo;
+import ru.choicerestaurant.util.Utils;
 import ru.choicerestaurant.util.exception.NotFoundException;
 
+import java.util.stream.Collectors;
+
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static ru.choicerestaurant.repository.TestData.*;
 import static ru.choicerestaurant.DataGeneration.*;
-import static ru.choicerestaurant.web.Profiles.DATAJPA;
-import static ru.choicerestaurant.web.Profiles.JPA;
 
+/*@Transactional
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)*/
 @ActiveProfiles(resolver = ActiveDbProfileResolver.class)
 public class UserServImplTest extends AbstractServiceTest {
 
     @Autowired
-    private UserServ userServ;
+    private UserServImpl userServImpl;
 
     @Autowired
     private CacheManager cacheManager;
 
-    @Before
+    /*@Before
     public void setUp() throws Exception {
         cacheManager.getCache("users").clear();
-    }
+    }*/
 
     @Test
     public void create() {
-        User newUser = getNew();
-        User created = userServ.create(newUser, AUTH_USER_ID);
+        UserTo newUserTo = getNewUser();
+        User userNew = userServImpl.getObjectByToObject(newUserTo);
+        User created = userServImpl.create(newUserTo);
         Integer createdId = created.getId();
-        newUser.setId(createdId);
-        assertThat(created).isEqualToIgnoringGivenFields(newUser, "registered");
-        assertThat(userServ.get(createdId, AUTH_USER_ID)).isEqualToIgnoringGivenFields(newUser, "registered");
+        userNew.setId(createdId);
+        assertThat(created).isEqualToIgnoringGivenFields(userNew, "registered");
     }
 
     @Test
     public void update() {
-        User newUser = getNew();
-        User created = userServ.create(newUser, AUTH_USER_ID);
-        Integer userId = created.getId();
-        User newUpdate = getUpdated(created);
-        User updated = userServ.update(newUpdate, AUTH_USER_ID);
-        assertThat(userServ.get(userId, AUTH_USER_ID)).isEqualToIgnoringGivenFields(newUpdate, "registered");
-
+        UserTo userTo = getRandomElement(userTos);
+        userTo.setName(getNewString(userTo.getName()));
+        userTo.setEmail(getNewString(userTo.getEmail()));
+        User user = userServImpl.getObjectByToObject(userTo);
+        User updated = userServImpl.update(userTo);
+        assertThat(updated).isEqualTo(user);
     }
 
-    @Test (expected = NotFoundException.class)
+    @Test
+    public void updateNotFound() {
+        UserTo userTo = getRandomElement(userTos);
+        Integer firstId = userTo.getId();
+        userTo.setId(getNotExistNum(userServImpl.getAll()));
+        assertThrows(NotFoundException.class, () -> userServImpl.update(userTo));
+        userTo.setId(firstId);
+    }
+
+    @Test ()
     public void delete() {
-        User newUser = getNew();
-        User created = userServ.create(newUser, AUTH_USER_ID);
-        newUser.setId(created.getId());
-        assertThat(userServ.get(created.getId(), AUTH_USER_ID)).isEqualToIgnoringGivenFields(newUser, "registered");
-        userServ.delete(created.getId(), AUTH_USER_ID);
-        userServ.get(created.getId(), AUTH_USER_ID);
+        Integer id = getRandomElement(userTos).getId();
+        userServImpl.delete(id);
+        assertThrows(NotFoundException.class, () -> userServImpl.get(id));
     }
 
-    @Test (expected = NotFoundException.class)
+    @Test
     public void deleteNotFound() {
-        userServ.delete(getNotExistNum(userServ.getAll(AUTH_USER_ID)), AUTH_USER_ID);
+        assertThrows(NotFoundException.class, () -> userServImpl.delete(getNotExistNum(userServImpl.getAll())));
     }
 
     @Test
     public void get() {
-        User newUser = getNew();
-        User created = userServ.create(newUser, AUTH_USER_ID);
-        newUser.setId(created.getId());
-        assertThat(userServ.get(created.getId(), AUTH_USER_ID)).isEqualToIgnoringGivenFields(newUser, "registered");
+        UserTo userTo = getRandomElement(userTos);
+        System.out.println("userTos" + userTos);
+        User user = userServImpl.getObjectByToObject(userTo);
+        assertThat(userServImpl.get(userTo.getId())).isEqualTo(user);
     }
 
-    @Test (expected = NotFoundException.class)
+    @Test
     public void getNotFound() {
-        userServ.get(getNotExistNum(userServ.getAll(AUTH_USER_ID)), AUTH_USER_ID);
+        assertThrows(NotFoundException.class, () -> userServImpl.get(getNotExistNum(userServImpl.getAll())));
     }
 
-    //todo
-    /*@Test
-    public void getAll() { }*/
+    @Test
+    public void getAll() {
+        System.out.println("userTos" + userTos);
+        System.out.println("userServImpl.getAll()" + userServImpl.getAll());
+        assertThat(userServImpl.getAll()).isEqualTo(Utils.sortList(userTos.stream()
+                .map(userTo -> userServImpl.getObjectByToObject(userTo))
+                .collect(Collectors.toList()))
+        );
+    }
 }
