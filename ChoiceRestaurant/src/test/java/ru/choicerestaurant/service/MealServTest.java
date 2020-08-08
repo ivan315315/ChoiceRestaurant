@@ -29,15 +29,6 @@ public class MealServTest extends AbstractServiceTest {
         assertThat(created).isEqualToIgnoringGivenFields(mealNew, "registered");
     }
 
-    @Test
-    public void update() {
-        MealTo mealTo = getRandomElement(mealTos);
-        mealTo.setName(getNewString(mealTo.getName()));
-        Meal meal = mealServ.getObjectByToObject(mealTo);
-        Meal updated = mealServ.update(mealTo);
-        assertThat(updated).isEqualTo(meal);
-    }
-
     @Test ()
     public void delete() {
         Integer id = getRandomElement(mealTos).getId();

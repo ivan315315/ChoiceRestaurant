@@ -82,8 +82,8 @@
                         </systemProperties>
                         <dependencies>
                             <dependency>
-                                <groupId>org.postgresql</groupId>
-                                <artifactId>postgresql</artifactId>
+                                <groupId>org.hsqldb</groupId>
+                                <artifactId>hsqldb</artifactId>
                             </dependency>
                         </dependencies>
                     </container>
@@ -292,9 +292,6 @@
             <version>${spring.security.version}</version>
         </dependency>
 
-
-
-
         <dependency>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjweaver</artifactId>
@@ -305,12 +302,6 @@
             <artifactId>snakeyaml</artifactId>
             <version>1.26</version>
         </dependency>
-
-
-
-
-
-
     </dependencies>
 
     <profiles>
@@ -321,29 +312,6 @@
                     <groupId>org.hsqldb</groupId>
                     <artifactId>hsqldb</artifactId>
                     <version>2.5.0</version>
-                </dependency>
-            </dependencies>
-        </profile>
-
-        <profile>
-            <id>postgres</id>
-            <dependencies>
-                <dependency>
-                    <groupId>org.postgresql</groupId>
-                    <artifactId>postgresql</artifactId>
-                    <version>${postgresql.version}</version>
-                </dependency>
-                <dependency>
-                    <groupId>org.apache.tomcat</groupId>
-                    <artifactId>tomcat-jdbc</artifactId>
-                    <version>${tomcat.version}</version>
-                    <scope>provided</scope>
-                </dependency>
-                <dependency>
-                    <groupId>org.slf4j</groupId>
-                    <artifactId>jul-to-slf4j</artifactId>
-                    <version>${slf4j.version}</version>
-                    <scope>runtime</scope>
                 </dependency>
             </dependencies>
             <activation>

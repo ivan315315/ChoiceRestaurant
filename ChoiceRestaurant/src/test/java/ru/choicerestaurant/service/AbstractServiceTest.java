@@ -31,6 +31,7 @@ import static ru.choicerestaurant.web.Profiles.*;
 })
 @Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
 @ActiveProfiles(JPA)
+@Transactional
 //@Transactional
 //@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 /*@ActiveProfiles(resolver = ActiveDbProfileResolver.class)*/

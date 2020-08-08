@@ -1,4 +1,4 @@
-package ru.choicerestaurant.web.role;
+package ru.choicerestaurant.web;
 
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;

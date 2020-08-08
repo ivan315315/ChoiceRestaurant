@@ -8,18 +8,13 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import ru.choicerestaurant.DataGeneration;
 import ru.choicerestaurant.model.Restaurant;
-import ru.choicerestaurant.model.User;
 import ru.choicerestaurant.model.UserRestaurantDay;
 import ru.choicerestaurant.repository.TestData;
 import ru.choicerestaurant.service.RestaurantServ;
 import ru.choicerestaurant.service.UserRestaurantDayServ;
-import ru.choicerestaurant.service.UserServImpl;
 import ru.choicerestaurant.to.RestaurantTo;
-import ru.choicerestaurant.to.UserTo;
-import ru.choicerestaurant.util.Utils;
 import ru.choicerestaurant.util.exception.NotFoundException;
 import ru.choicerestaurant.web.json.JsonUtil;
-import ru.choicerestaurant.web.user.UserRestController;
 
 import java.util.Map;
 import java.util.stream.Collectors;

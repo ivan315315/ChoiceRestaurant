@@ -1,15 +1,12 @@
 package ru.choicerestaurant.service;
 
 import org.slf4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import ru.choicerestaurant.model.Role;
 import ru.choicerestaurant.repository.RoleRep;
-import ru.choicerestaurant.repository.jdbc.RoleRepImplJdbc;
 import ru.choicerestaurant.util.ValidationUtil;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 import static org.slf4j.LoggerFactory.getLogger;

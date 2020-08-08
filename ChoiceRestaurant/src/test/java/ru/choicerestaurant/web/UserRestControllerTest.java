@@ -1,4 +1,4 @@
-package ru.choicerestaurant.web.user;
+package ru.choicerestaurant.web;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -11,7 +11,6 @@ import ru.choicerestaurant.repository.TestData;
 import ru.choicerestaurant.service.UserServImpl;
 import ru.choicerestaurant.to.UserTo;
 import ru.choicerestaurant.util.exception.NotFoundException;
-import ru.choicerestaurant.web.AbstractControllerTest;
 import ru.choicerestaurant.web.json.JsonUtil;
 
 import java.util.stream.Collectors;

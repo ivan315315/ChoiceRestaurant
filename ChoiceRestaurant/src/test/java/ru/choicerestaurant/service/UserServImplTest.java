@@ -44,16 +44,6 @@ public class UserServImplTest extends AbstractServiceTest {
     }
 
     @Test
-    public void update() {
-        UserTo userTo = getRandomElement(userTos);
-        userTo.setName(getNewString(userTo.getName()));
-        userTo.setEmail(getNewString(userTo.getEmail()));
-        User user = userServImpl.getObjectByToObject(userTo);
-        User updated = userServImpl.update(userTo);
-        assertThat(updated).isEqualTo(user);
-    }
-
-    @Test
     public void updateNotFound() {
         UserTo userTo = getRandomElement(userTos);
         Integer firstId = userTo.getId();

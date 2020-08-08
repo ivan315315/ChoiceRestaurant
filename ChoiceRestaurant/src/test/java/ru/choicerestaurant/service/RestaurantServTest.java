@@ -41,16 +41,6 @@ public class RestaurantServTest extends AbstractServiceTest {
     }
 
     @Test
-    public void update() {
-        RestaurantTo restaurantTo = getRandomElement(restaurantTos);
-        restaurantTo.setName(getNewString(restaurantTo.getName()));
-        restaurantTo.setEnabled(changeBoolean(restaurantTo.getEnabled()));
-        Restaurant restaurant = restaurantServ.getObjectByToObject(restaurantTo);
-        Restaurant updated = restaurantServ.update(restaurantTo);
-        assertThat(updated).isEqualTo(restaurant);
-    }
-
-    @Test
     public void updateNotFound() {
         RestaurantTo restaurantTo = getRandomElement(restaurantTos);
         Integer firstId = restaurantTo.getId();

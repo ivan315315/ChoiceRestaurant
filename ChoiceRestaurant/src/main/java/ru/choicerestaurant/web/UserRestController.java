@@ -1,4 +1,4 @@
-package ru.choicerestaurant.web.user;
+package ru.choicerestaurant.web;
 
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +10,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.choicerestaurant.model.User;
 import ru.choicerestaurant.service.UserServ;
 import ru.choicerestaurant.to.UserTo;
-import ru.choicerestaurant.util.SecurityUtil;
 
 import java.net.URI;
 import java.util.List;

@@ -1,4 +1,4 @@
-package ru.choicerestaurant.web.role;
+package ru.choicerestaurant.web;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +7,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import ru.choicerestaurant.DataGeneration;
 import ru.choicerestaurant.repository.TestData;
 import ru.choicerestaurant.service.RoleServ;
-import ru.choicerestaurant.web.AbstractControllerTest;
 import ru.choicerestaurant.web.json.JsonUtil;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
